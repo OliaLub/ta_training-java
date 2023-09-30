@@ -12,6 +12,7 @@ import java.util.List;
 public class PastebinHomePage extends AbstractPage{
     private static final String pastebinURL = "https://pastebin.com/";
     private static final String pathToOption = "//ul[@id='select2-postform-expiration-results']/li[text()='%s']";
+    private static final String advertisementPopUpId = "vi-smartbanner";
 
     @FindBy(xpath = "//textarea[@name='PostForm[text]']")
     private WebElement pasteBodyTextarea;
@@ -71,7 +72,7 @@ public class PastebinHomePage extends AbstractPage{
     }
 
     private void closeAdvertisementIfAppear() {
-        List<WebElement> advPopUp = driver.findElements(By.id("vi-smartbanner"));
+        List<WebElement> advPopUp = driver.findElements(By.id(advertisementPopUpId));
         if (!advPopUp.isEmpty()) {
             closeAdvertisementPopUp();
         }

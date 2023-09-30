@@ -1,20 +1,17 @@
-package task_1.page;
+package com.epam.training.olha_haichenkova.task_1.page;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
+import java.util.List;
 
 public class PastebinHomePage extends AbstractPage{
-    private final String pastebinURL = "https://pastebin.com/";
-
-    public PastebinHomePage(WebDriver driver){
-        super(driver);
-    }
+    private static final String pastebinURL = "https://pastebin.com/";
+    private static final String pathToOption = "//ul[@id='select2-postform-expiration-results']/li[text()='%s']";
 
     @FindBy(xpath = "//textarea[@name='PostForm[text]']")
     private WebElement pasteBodyTextarea;
@@ -31,16 +28,23 @@ public class PastebinHomePage extends AbstractPage{
     @FindBy(xpath = "//button[@type='submit' and @class='btn -big']")
     private WebElement createNewPasteButton;
 
+    @FindBy(xpath = "//vli[@class='vliIgnore']")
+    private WebElement advertisementPopUpCloseButton;
+
+    public PastebinHomePage(WebDriver driver){
+        super(driver);
+    }
+
     @Override
     public PastebinHomePage openPage() {
         driver.get(pastebinURL);
-        new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
-                .until(ExpectedConditions.elementToBeClickable(pasteBodyTextarea));
+       wait.until(ExpectedConditions.elementToBeClickable(pasteBodyTextarea));
         return this;
     }
 
     public PastebinHomePage inputNewPasteText(String text){
         pasteBodyTextarea.sendKeys(text);
+        new Actions(driver).scrollToElement(createNewPasteButton).perform();
         return this;
     }
 
@@ -50,23 +54,31 @@ public class PastebinHomePage extends AbstractPage{
     }
 
     public PastebinHomePage selectExpirationTime(String optionName) {
-        new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
-                .until(ExpectedConditions.elementToBeClickable(expirationTimeDropdown)).click();
+        wait.until(ExpectedConditions.elementToBeClickable(expirationTimeDropdown)).click();
         WebElement option = driver.findElement(By.xpath(createPathToExpirationTimeOption(optionName)));
         option.click();
         return this;
     }
 
     private static String createPathToExpirationTimeOption(String optionName){
-        String pathToOptionStart = "//ul[@id='select2-postform-expiration-results']/li[text()='";
-        String pathToOptionEnd = "']";
-        return pathToOptionStart + optionName + pathToOptionEnd;
+        return String.format(pathToOption, optionName);
     }
 
     public PastebinCreatedPastePage createNewPaste(){
-        new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
-                .until(ExpectedConditions.elementToBeClickable(createNewPasteButton)).click();
+        closeAdvertisementIfAppear();
+        wait.until(ExpectedConditions.elementToBeClickable(createNewPasteButton)).click();
         return new PastebinCreatedPastePage(driver);
+    }
+
+    private void closeAdvertisementIfAppear() {
+        List<WebElement> advPopUp = driver.findElements(By.id("vi-smartbanner"));
+        if (!advPopUp.isEmpty()) {
+            closeAdvertisementPopUp();
+        }
+    }
+
+    private void closeAdvertisementPopUp() {
+        advertisementPopUpCloseButton.click();
     }
 
 }

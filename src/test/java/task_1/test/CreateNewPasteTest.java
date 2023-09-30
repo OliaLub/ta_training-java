@@ -7,15 +7,13 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import task_1.page.PastebinHomePage;
+import com.epam.training.olha_haichenkova.task_1.page.PastebinHomePage;
 
 
 public class CreateNewPasteTest {
     public static WebDriver driver;
-    public static String pasteText = "Hello from WebDriver";
-    public static String pasteTitle = "helloweb";
-
-    public static PastebinHomePage pastebinHomePage;
+    public static final String pasteText = "Hello from WebDriver";
+    public static final String pasteTitle = "helloweb";
 
     @BeforeEach
     public void setUpDriver(){
@@ -25,7 +23,7 @@ public class CreateNewPasteTest {
 
     @Test
     public void createNewPasteFor10MinutesTest(){
-        pastebinHomePage = new PastebinHomePage(driver);
+        PastebinHomePage pastebinHomePage = new PastebinHomePage(driver);
         String actualText = pastebinHomePage.openPage()
                 .inputNewPasteText(pasteText)
                 .selectExpirationTime("10 Minutes")

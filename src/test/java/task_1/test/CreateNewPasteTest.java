@@ -13,6 +13,7 @@ import com.epam.training.olha_haichenkova.task_1.page.PastebinHomePage;
 
 public class CreateNewPasteTest {
     public static WebDriver driver;
+    public static final String pageTitleEnd = " - Pastebin.com";
     public static final String pasteText1 = "Hello from WebDriver";
     public static final String pasteTitle1 = "helloweb";
     public static final String pasteText2 = """
@@ -50,7 +51,7 @@ public class CreateNewPasteTest {
                 .createNewPaste();
 
         String actualPageTitle = driver.getTitle();
-        Assertions.assertEquals(pasteTitle2, actualPageTitle, String.format("Title was expected as: %s, but actual is: %s!", pasteTitle2, actualPageTitle));
+        Assertions.assertEquals(pasteTitle2 + pageTitleEnd, actualPageTitle, String.format("Title was expected as: %s, but actual is: %s!", pasteTitle2+pageTitleEnd, actualPageTitle));
 
         String actualSyntax = pastebinCreatedPastePage.readNewPasteSyntax();
         Assertions.assertEquals("Bash", actualSyntax, String.format("Syntax was expected as: %s, but actual is: %s!", "Bash", actualSyntax));

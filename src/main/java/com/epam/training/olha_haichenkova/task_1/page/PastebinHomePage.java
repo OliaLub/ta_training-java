@@ -81,6 +81,7 @@ public class PastebinHomePage extends AbstractPage{
     public PastebinCreatedPastePage createNewPaste(){
         closeAdvertisementIfAppear();
         wait.until(ExpectedConditions.elementToBeClickable(createNewPasteButton)).click();
+        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(pastebinURL)));
         return new PastebinCreatedPastePage(driver);
     }
 

@@ -12,8 +12,8 @@ import com.epam.training.olha_haichenkova.task_1.page.PastebinHomePage;
 
 public class CreateNewPasteTest {
     public static WebDriver driver;
-    public static final String pasteText = "Hello from WebDriver";
-    public static final String pasteTitle = "helloweb";
+    public static final String PASTE_TEXT = "Hello from WebDriver";
+    public static final String PASTE_TITLE = "helloweb";
 
     @BeforeEach
     public void setUpDriver(){
@@ -25,12 +25,12 @@ public class CreateNewPasteTest {
     public void createNewPasteFor10MinutesTest(){
         PastebinHomePage pastebinHomePage = new PastebinHomePage(driver);
         String actualText = pastebinHomePage.openPage()
-                .inputNewPasteText(pasteText)
+                .inputNewPasteText(PASTE_TEXT)
                 .selectExpirationTime("10 Minutes")
-                .inputNewPasteTitle(pasteTitle)
+                .inputNewPasteTitle(PASTE_TITLE)
                 .createNewPaste()
                 .readNewPaste();
-        Assertions.assertEquals(pasteText, actualText, "Texts are not equal!");
+        Assertions.assertEquals(PASTE_TEXT, actualText, "Texts are not equal!");
     }
 
     @AfterEach

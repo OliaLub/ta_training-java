@@ -10,9 +10,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.List;
 
 public class PastebinHomePage extends AbstractPage{
-    private static final String pastebinURL = "https://pastebin.com/";
-    private static final String pathToOption = "//li[text()='%s']";
-    private static final String advertisementPopUpId = "vi-smartbanner";
+    private static final String PASTEBIN_URL = "https://pastebin.com/";
+    private static final String PATH_TO_OPTION = "//li[text()='%s']";
+    private static final String ADVERTISEMENT_POP_UP_ID = "vi-smartbanner";
 
     @FindBy(xpath = "//textarea[@name='PostForm[text]']")
     private WebElement pasteBodyTextarea;
@@ -44,7 +44,7 @@ public class PastebinHomePage extends AbstractPage{
 
     @Override
     public PastebinHomePage openPage() {
-        driver.get(pastebinURL);
+        driver.get(PASTEBIN_URL);
        wait.until(ExpectedConditions.elementToBeClickable(pasteBodyTextarea));
         return this;
     }
@@ -62,31 +62,29 @@ public class PastebinHomePage extends AbstractPage{
 
     public PastebinHomePage selectSyntaxHighlighting(String optionName) {
         wait.until(ExpectedConditions.elementToBeClickable(syntaxHighlightingDropdown)).click();
-        WebElement option = driver.findElement(By.xpath(createPathToOption(optionName)));
-        option.click();
+        driver.findElement(By.xpath(createPathToOption(optionName))).click();
         return this;
     }
 
     public PastebinHomePage selectExpirationTime(String optionName) {
         wait.until(ExpectedConditions.elementToBeClickable(expirationTimeDropdown)).click();
-        WebElement option = driver.findElement(By.xpath(createPathToOption(optionName)));
-        option.click();
+        driver.findElement(By.xpath(createPathToOption(optionName))).click();
         return this;
     }
 
     private static String createPathToOption(String optionName){
-        return String.format(pathToOption, optionName);
+        return String.format(PATH_TO_OPTION, optionName);
     }
 
     public PastebinCreatedPastePage createNewPaste(){
         closeAdvertisementIfAppear();
         wait.until(ExpectedConditions.elementToBeClickable(createNewPasteButton)).click();
-        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(pastebinURL)));
+        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(PASTEBIN_URL)));
         return new PastebinCreatedPastePage(driver);
     }
 
     private void closeAdvertisementIfAppear() {
-        List<WebElement> advPopUp = driver.findElements(By.id(advertisementPopUpId));
+        List<WebElement> advPopUp = driver.findElements(By.id(ADVERTISEMENT_POP_UP_ID));
         if (!advPopUp.isEmpty()) {
             closeAdvertisementPopUp();
         }

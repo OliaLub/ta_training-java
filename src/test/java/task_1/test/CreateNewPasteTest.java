@@ -12,15 +12,17 @@ import com.epam.training.olha_haichenkova.task_1.page.PastebinHomePage;
 
 
 public class CreateNewPasteTest {
-    public static WebDriver driver;
-    public static final String pageTitleEnd = " - Pastebin.com";
-    public static final String pasteText1 = "Hello from WebDriver";
-    public static final String pasteTitle1 = "helloweb";
-    public static final String pasteText2 = """
+    private static WebDriver driver;
+    private static final String PAGE_TITLE_END = " - Pastebin.com";
+    private static final String PASTE_TEXT_1 = "Hello from WebDriver";
+    private static final String PASTE_TITLE_1 = "helloweb";
+    private static final String PASTE_TEXT_2 = """
             git config --global user.name  "New Sheriff in Town"
             git reset $(git commit-tree HEAD^{tree} -m "Legacy code")
             git push origin master --force""";
-    public static final String pasteTitle2 = "how to gain dominance among developers";
+    private static final String PASTE_TITLE_2 = "how to gain dominance among developers";
+    private static final String SYNTAX_HIGHLIGHTING = "Bash";
+    private static final String EXPIRATION_TIME ="10 Minutes";
     private PastebinHomePage pastebinHomePage;
 
     @BeforeEach
@@ -33,31 +35,31 @@ public class CreateNewPasteTest {
     @Test
     public void createNewPasteFor10MinutesTest(){
         String actualText = pastebinHomePage.openPage()
-                .inputNewPasteText(pasteText1)
-                .selectExpirationTime("10 Minutes")
-                .inputNewPasteTitle(pasteTitle1)
+                .inputNewPasteText(PASTE_TEXT_1)
+                .selectExpirationTime(EXPIRATION_TIME)
+                .inputNewPasteTitle(PASTE_TITLE_1)
                 .createNewPaste()
                 .readNewPasteText();
-        Assertions.assertEquals(pasteText1, actualText, String.format("Text was expected as: %s, but actual is: %s!", pasteText1, actualText));
+        Assertions.assertEquals(PASTE_TEXT_1, actualText, String.format("Text was expected as: %s, but actual is: %s!", PASTE_TEXT_1, actualText));
     }
 
     @Test
     public void createNewPasteInBashFor10MinutesTest() {
         PastebinCreatedPastePage pastebinCreatedPastePage = pastebinHomePage.openPage()
-                .inputNewPasteText(pasteText2)
-                .selectSyntaxHighlighting("Bash")
-                .selectExpirationTime("10 Minutes")
-                .inputNewPasteTitle(pasteTitle2)
+                .inputNewPasteText(PASTE_TEXT_2)
+                .selectSyntaxHighlighting(SYNTAX_HIGHLIGHTING)
+                .selectExpirationTime(EXPIRATION_TIME)
+                .inputNewPasteTitle(PASTE_TITLE_2)
                 .createNewPaste();
 
         String actualPageTitle = driver.getTitle();
-        Assertions.assertEquals(pasteTitle2 + pageTitleEnd, actualPageTitle, String.format("Title was expected as: %s, but actual is: %s!", pasteTitle2+pageTitleEnd, actualPageTitle));
+        Assertions.assertEquals(PASTE_TITLE_2 + PAGE_TITLE_END, actualPageTitle, String.format("Title was expected as: %s, but actual is: %s!", PASTE_TITLE_2 + PAGE_TITLE_END, actualPageTitle));
 
         String actualSyntax = pastebinCreatedPastePage.readNewPasteSyntax();
-        Assertions.assertEquals("Bash", actualSyntax, String.format("Syntax was expected as: %s, but actual is: %s!", "Bash", actualSyntax));
+        Assertions.assertEquals(SYNTAX_HIGHLIGHTING, actualSyntax, String.format("Syntax was expected as: %s, but actual is: %s!", "Bash", actualSyntax));
 
         String actualText = pastebinCreatedPastePage.readNewPasteText();
-        Assertions.assertEquals(pasteText2, actualText, String.format("Text was expected as: %s, but actual is: %s!", pasteText2, actualText));
+        Assertions.assertEquals(PASTE_TEXT_2, actualText, String.format("Text was expected as: %s, but actual is: %s!", PASTE_TEXT_2, actualText));
     }
 
     @AfterEach

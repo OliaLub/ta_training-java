@@ -16,6 +16,7 @@ public class CloudPricingCalculatorTest {
 
     public static WebDriver driver;
     private static final String SEARCH_QUERY = "Google Cloud Platform Pricing Calculator";
+    private static final int NUMBER_OF_VM = 4;
     private GoogleCloudMainPage googleCloudMainPage;
 
     @BeforeEach
@@ -31,7 +32,7 @@ public class CloudPricingCalculatorTest {
                 .openPage()
                 .inputSearchQuery(SEARCH_QUERY)
                 .openSearchedResult()
-                .fillInCalculationForm(4);
+                .fillInCalculationForm(NUMBER_OF_VM);
 
         String actualTotalEstimateSite = calculationResultsPage.getTotalEstimate();
         calculationResultsPage.openEmailEstimateForm();

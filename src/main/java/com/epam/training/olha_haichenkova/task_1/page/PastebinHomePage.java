@@ -7,7 +7,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.util.List;
 
 public class PastebinHomePage extends AbstractPage{
     private static final String PASTEBIN_URL = "https://pastebin.com/";
@@ -72,8 +71,8 @@ public class PastebinHomePage extends AbstractPage{
     }
 
     private void closeAdvertisementIfAppear() {
-        List<WebElement> advPopUp = driver.findElements(By.id(ADVERTISEMENT_POP_UP_ID));
-        if (!advPopUp.isEmpty()) {
+        WebElement advPopUp = driver.findElement(By.id(ADVERTISEMENT_POP_UP_ID));
+        if (advPopUp.isDisplayed()) {
             closeAdvertisementPopUp();
         }
     }

@@ -11,9 +11,9 @@ import com.epam.training.olha_haichenkova.task_1.page.PastebinHomePage;
 
 
 public class CreateNewPasteTest {
-    public static WebDriver driver;
-    public static final String PASTE_TEXT = "Hello from WebDriver";
-    public static final String PASTE_TITLE = "helloweb";
+    private static WebDriver driver;
+    private static final String PASTE_TEXT = "Hello from WebDriver";
+    private static final String PASTE_TITLE = "helloweb";
 
     @BeforeEach
     public void setUpDriver(){

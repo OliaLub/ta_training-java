@@ -10,11 +10,17 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class PastebinHomePage extends AbstractPage{
     private static final String PASTEBIN_URL = "https://pastebin.com/";
-    private static final String PATH_TO_OPTION = "//ul[@id='select2-postform-expiration-results']/li[text()='%s']";
+    private static final String PATH_TO_OPTION = "//li[text()='%s']";
     private static final String ADVERTISEMENT_POP_UP_ID = "vi-smartbanner";
 
     @FindBy(xpath = "//textarea[@name='PostForm[text]']")
     private WebElement pasteBodyTextarea;
+
+    @FindBy(xpath = "//div[@class='form-group field-postform-format']//span[@class='selection']")
+    private WebElement syntaxHighlightingDropdown;
+
+    @FindBy(xpath = "//li[text()='Bash']")
+    private WebElement syntaxHighlightingBashOption;
 
     @FindBy(xpath = "//div[@class='form-group field-postform-expiration']//span[@class='selection']")
     private WebElement expirationTimeDropdown;
@@ -53,20 +59,26 @@ public class PastebinHomePage extends AbstractPage{
         return this;
     }
 
-    public PastebinHomePage selectExpirationTime(String optionName) {
-        wait.until(ExpectedConditions.elementToBeClickable(expirationTimeDropdown)).click();
-        WebElement option = driver.findElement(By.xpath(createPathToExpirationTimeOption(optionName)));
-        option.click();
+    public PastebinHomePage selectSyntaxHighlighting(String optionName) {
+        wait.until(ExpectedConditions.elementToBeClickable(syntaxHighlightingDropdown)).click();
+        driver.findElement(By.xpath(createPathToOption(optionName))).click();
         return this;
     }
 
-    private static String createPathToExpirationTimeOption(String optionName){
+    public PastebinHomePage selectExpirationTime(String optionName) {
+        wait.until(ExpectedConditions.elementToBeClickable(expirationTimeDropdown)).click();
+        driver.findElement(By.xpath(createPathToOption(optionName))).click();
+        return this;
+    }
+
+    private static String createPathToOption(String optionName){
         return String.format(PATH_TO_OPTION, optionName);
     }
 
     public PastebinCreatedPastePage createNewPaste(){
         closeAdvertisementIfAppear();
         wait.until(ExpectedConditions.elementToBeClickable(createNewPasteButton)).click();
+        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(PASTEBIN_URL)));
         return new PastebinCreatedPastePage(driver);
     }
 

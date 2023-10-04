@@ -56,7 +56,7 @@ public class CreateNewPasteTest {
         Assertions.assertEquals(PASTE_TITLE_2 + PAGE_TITLE_END, actualPageTitle, String.format("Title was expected as: %s, but actual is: %s!", PASTE_TITLE_2 + PAGE_TITLE_END, actualPageTitle));
 
         String actualSyntax = pastebinCreatedPastePage.readNewPasteSyntax();
-        Assertions.assertEquals(SYNTAX_HIGHLIGHTING, actualSyntax, String.format("Syntax was expected as: %s, but actual is: %s!", "Bash", actualSyntax));
+        Assertions.assertEquals(SYNTAX_HIGHLIGHTING, actualSyntax, String.format("Syntax was expected as: %s, but actual is: %s!", SYNTAX_HIGHLIGHTING, actualSyntax));
 
         String actualText = pastebinCreatedPastePage.readNewPasteText();
         Assertions.assertEquals(PASTE_TEXT_2, actualText, String.format("Text was expected as: %s, but actual is: %s!", PASTE_TEXT_2, actualText));

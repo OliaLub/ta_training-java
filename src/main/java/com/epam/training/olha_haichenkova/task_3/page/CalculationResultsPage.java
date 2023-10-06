@@ -13,6 +13,7 @@ import static com.epam.training.olha_haichenkova.task_3.page.PricingCalculatorPa
 public class CalculationResultsPage extends AbstractPage{
 
     private static final String ESTIMATION_RESULT = "//*[@id='resultBlock']//div[@class='cpc-cart-total']";
+
     @FindBy(xpath = "//*[@id='resultBlock']//div[@class='cpc-cart-total']/h2/b")
     private WebElement totalEstimateOnlineText;
 

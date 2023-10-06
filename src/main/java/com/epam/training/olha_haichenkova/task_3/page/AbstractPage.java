@@ -9,7 +9,7 @@ import java.time.Duration;
 public abstract class AbstractPage {
 
     protected WebDriver driver;
-    protected static final int WAIT_TIMEOUT_SECONDS = 20;
+    protected static final int WAIT_TIMEOUT_SECONDS = 5;
     protected WebDriverWait wait;
 
     protected AbstractPage(WebDriver driver){

@@ -15,7 +15,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 public class CloudPricingCalculatorTest {
 
     public static WebDriver driver;
-    private static final String SEARCH_QUERY = "Google Cloud Platform Pricing Calculator";
+    private static final String SEARCH_QUERY = "Google Cloud Pricing Calculator";
     private static final int NUMBER_OF_VM = 4;
     private GoogleCloudMainPage googleCloudMainPage;
 
@@ -31,7 +31,7 @@ public class CloudPricingCalculatorTest {
         CalculationResultsPage calculationResultsPage = googleCloudMainPage
                 .openPage()
                 .inputSearchQuery(SEARCH_QUERY)
-                .openSearchedResult()
+                .openSearchedResult(SEARCH_QUERY)
                 .fillInCalculationForm(NUMBER_OF_VM);
 
         String actualTotalEstimateSite = calculationResultsPage.getTotalEstimate();

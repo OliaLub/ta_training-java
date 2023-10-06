@@ -12,6 +12,7 @@ public class YopmailClientPage extends AbstractPage{
     private final By IFRAME_BODY_BY = By.tagName("body");
     private static final String IFRAME_BODY_ATTRIBUTE = "class";
     private static final String IFRAME_BODY_CLASS = "bodymail yscrollbar";
+
     @FindBy(xpath = "//tbody//td/h2")
     private WebElement messageBody;
 

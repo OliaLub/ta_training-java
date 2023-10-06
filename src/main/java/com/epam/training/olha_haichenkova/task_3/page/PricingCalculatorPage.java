@@ -11,6 +11,7 @@ public class PricingCalculatorPage extends AbstractPage{
     private static final String PRICING_CALCULATOR_URL = "https://cloud.google.com/products/calculator";
     static final String OUTER_IFRAME_XPATH = "//main//devsite-iframe/iframe";
     static final String INNER_IFRAME_ID = "myFrame";
+
     @FindBy(xpath = "//md-tab-item[@id='tab-item-1']")
     private WebElement computeEngineTab;
 
@@ -88,12 +89,12 @@ public class PricingCalculatorPage extends AbstractPage{
         return this;
     }
 
-    public PricingCalculatorPage selectNumberOfServers(int numberOfServers) {
+    private PricingCalculatorPage selectNumberOfServers(int numberOfServers) {
         numberOfServersInput.sendKeys(""+numberOfServers);
         return this;
     }
 
-    public PricingCalculatorPage selectOperatingSystemSoftware(){
+    private PricingCalculatorPage selectOperatingSystemSoftware(){
         operatingSystemSoftwareSelectIcon.click();
         if(!operatingSystemSoftwareOption.isSelected()){
             operatingSystemSoftwareOption.click();
@@ -101,7 +102,7 @@ public class PricingCalculatorPage extends AbstractPage{
         return this;
     }
 
-    public PricingCalculatorPage selectVMClass() {
+    private PricingCalculatorPage selectVMClass() {
         vMFamilySelectIcon.click();
         if (!vMFamilyOption.isSelected()) {
             vMFamilyOption.click();
@@ -109,22 +110,24 @@ public class PricingCalculatorPage extends AbstractPage{
         return this;
     }
 
-    public PricingCalculatorPage selectVMSeries(){
+    private PricingCalculatorPage selectVMSeries(){
         vMSeriesSelectIcon.click();
         if(!vMSeriesOption.isSelected()){
             vMSeriesOption.click();
         }
         return this;
     }
-    public PricingCalculatorPage selectMachineType(){
+
+    private PricingCalculatorPage selectMachineType(){
         machineTypeSelectIcon.click();
+        wait.until(ExpectedConditions.elementToBeClickable(machineTypeOption));
         if(!machineTypeOption.isSelected()){
             machineTypeOption.click();
         }
         return this;
     }
 
-    public PricingCalculatorPage selectGPU(){
+    private PricingCalculatorPage selectGPU(){
         addGPUsCheckbox.click();
         gPUTypeSelectIcon.click();
         if(!gPUTypeOption.isSelected()){
@@ -138,7 +141,7 @@ public class PricingCalculatorPage extends AbstractPage{
         return this;
     }
 
-    public PricingCalculatorPage selectLocalSSD(){
+    private PricingCalculatorPage selectLocalSSD(){
         localSSDSelectIcon.click();
         wait.until(ExpectedConditions.elementToBeClickable(localSSDOption));
         if(!localSSDOption.isSelected()){
@@ -147,7 +150,7 @@ public class PricingCalculatorPage extends AbstractPage{
         return this;
     }
 
-    public PricingCalculatorPage selectDatacenterLocation() {
+    private PricingCalculatorPage selectDatacenterLocation() {
         datacenterLocationSelectIcon.click();
         wait.until(ExpectedConditions.elementToBeClickable(datacenterLocationOption));
         if (!datacenterLocationOption.isSelected()) {
@@ -156,7 +159,7 @@ public class PricingCalculatorPage extends AbstractPage{
         return this;
     }
 
-    public PricingCalculatorPage selectCommittedUsage() {
+    private PricingCalculatorPage selectCommittedUsage() {
         committedUsageSelectIcon.click();
         wait.until(ExpectedConditions.elementToBeClickable(committedUsageOption));
         if (!committedUsageOption.isSelected()) {

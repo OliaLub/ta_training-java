@@ -4,8 +4,6 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.util.List;
-
 
 public class YopmailMainPage extends AbstractPage{
 
@@ -14,7 +12,7 @@ public class YopmailMainPage extends AbstractPage{
     private static final String YOP_INNER_IFRAME_ID = "ad_iframe";
 
     @FindBy(xpath = "//a[@href='email-generator']/div[@class='txtlien']")
-    private static WebElement emailGeneratorLink;
+    private WebElement emailGeneratorLink;
 
     @FindBy(xpath = "//div[@class='tooltip']/button[@id='cprnd']")
     private WebElement copyToClipboardGeneratedAddressButton;
@@ -49,10 +47,13 @@ public class YopmailMainPage extends AbstractPage{
     }
 
     private void closeAdvertisementIfAppear() {
-        List<WebElement> advPopUp = driver.findElements(By.id(YOP_OUTER_IFRAME_ID));
-        if (!advPopUp.isEmpty()) {
+        if (isAdvertisementDisplayed()) {
             closeAdvertisementPopUp();
         }
+    }
+
+    private boolean isAdvertisementDisplayed(){
+        return driver.findElement(By.id(YOP_OUTER_IFRAME_ID)).isDisplayed();
     }
 
     private void closeAdvertisementPopUp() {

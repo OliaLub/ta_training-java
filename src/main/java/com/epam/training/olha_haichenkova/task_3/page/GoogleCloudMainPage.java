@@ -7,17 +7,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.util.List;
 
 public class GoogleCloudMainPage extends AbstractPage{
 
     private static final String BASE_URL = "https://cloud.google.com/";
     private static final String RESULTS_CONTAINER = "//div[@class='gsc-expansionArea']";
+    private static final String PATH_TO_RESULT = "//div[@class='gsc-thumbnail-inside']//a[contains(@class, 'gs-title')";
+
     @FindBy(xpath = "//input[@placeholder='Search']")
     private WebElement searchButton;
-
-    @FindBy(xpath = "//div[@class='gsc-thumbnail-inside']//a[contains(@class, 'gs-title') and contains(., 'Google') and contains(., 'Cloud') and contains(., 'Pricing') and contains(., 'Calculator')]")
-    private List<WebElement> searchResults;
 
     public GoogleCloudMainPage(WebDriver driver){
         super (driver);
@@ -36,9 +34,19 @@ public class GoogleCloudMainPage extends AbstractPage{
         return this;
     }
 
-    public PricingCalculatorPage openSearchedResult(){
+    private static String createSearchResultLocator(String searchQuery){
+        String [] searchedWords = searchQuery.split("\\s");
+        StringBuilder searchResultLocator = new StringBuilder(PATH_TO_RESULT);
+        for (String word : searchedWords) {
+            searchResultLocator.append(String.format(" and contains(., '%s')", word));
+        }
+        searchResultLocator.append("]");
+        return searchResultLocator.toString();
+    }
+
+    public PricingCalculatorPage openSearchedResult(String searchQuery){
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(RESULTS_CONTAINER)));
-        searchResults.get(0).click();
+        driver.findElements(By.xpath(createSearchResultLocator(searchQuery))).get(0).click();
         return new PricingCalculatorPage(driver);
     }
 

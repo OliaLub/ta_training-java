@@ -2,7 +2,6 @@ package com.epam.training.olha_haichenkova.task_3.page;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 
 public class YopmailMainPage extends AbstractPage{
@@ -35,14 +34,14 @@ public class YopmailMainPage extends AbstractPage{
     }
 
     public YopmailMainPage generateTemporaryEmail(){
-        wait.until(ExpectedConditions.elementToBeClickable(emailGeneratorLink)).click();
+        waitToBeClickable(emailGeneratorLink).click();
         closeAdvertisementIfAppear();
-        wait.until(ExpectedConditions.elementToBeClickable(copyToClipboardGeneratedAddressButton)).click();
+        waitToBeClickable(copyToClipboardGeneratedAddressButton).click();
         return this;
     }
 
     public YopmailClientPage checkInbox(){
-        wait.until(ExpectedConditions.elementToBeClickable(checkInboxButton)).click();
+        waitToBeClickable(checkInboxButton).click();
         return new YopmailClientPage(driver);
     }
 

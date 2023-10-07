@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 public class YopmailClientPage extends AbstractPage{
 
     private static final String LETTER_IFRAME_ID = "ifmail";
-    private final By IFRAME_BODY_BY = By.tagName("body");
+    private static final By IFRAME_BODY_BY = By.tagName("body");
     private static final String IFRAME_BODY_ATTRIBUTE = "class";
     private static final String IFRAME_BODY_CLASS = "bodymail yscrollbar";
 

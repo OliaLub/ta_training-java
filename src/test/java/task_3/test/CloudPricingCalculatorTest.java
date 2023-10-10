@@ -1,5 +1,6 @@
 package task_3.test;
 
+import com.epam.training.olha_haichenkova.task_3.driver.DriverSingleton;
 import com.epam.training.olha_haichenkova.task_3.model.VirtualMachine;
 import com.epam.training.olha_haichenkova.task_3.page.CalculationResultsPage;
 import com.epam.training.olha_haichenkova.task_3.page.GoogleCloudMainPage;
@@ -7,16 +8,19 @@ import com.epam.training.olha_haichenkova.task_3.service.VirtualMachineCreator;
 import com.epam.training.olha_haichenkova.task_3.util.TabsHandler;
 import com.epam.training.olha_haichenkova.task_3.page.YopmailMainPage;
 
+import com.epam.training.olha_haichenkova.task_3.util.TestListener;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 
+
+@ExtendWith(TestListener.class)
 public class CloudPricingCalculatorTest {
 
-    public static WebDriver driver;
+    public WebDriver driver;
     private static final String SEARCH_QUERY = "Google Cloud Pricing Calculator";
     private static final int NUMBER_OF_VM = 4;
     private static final int COMMITTED_USAGE_YEARS = 1;
@@ -24,8 +28,7 @@ public class CloudPricingCalculatorTest {
 
     @BeforeEach
     public void setUpDriver(){
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
+        driver = DriverSingleton.getDriver();
         googleCloudMainPage = new GoogleCloudMainPage(driver);
     }
 
@@ -62,7 +65,7 @@ public class CloudPricingCalculatorTest {
 
     @AfterEach
     public void tearDownDriver(){
-        driver.quit();
+        DriverSingleton.closeDriver();
     }
 
 }

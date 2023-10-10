@@ -1,6 +1,5 @@
 package com.epam.training.olha_haichenkova.task_3.page;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -39,7 +38,7 @@ public class GoogleCloudMainPage extends AbstractPage{
 
     public PricingCalculatorPage openSearchedResult(String searchQuery){
         waitToBePresent(RESULTS_CONTAINER);
-        driver.findElements(By.xpath(createSearchResultLocator(searchQuery))).get(0).click();
+        waitToBePresent(createSearchResultLocator(searchQuery)).click();
         return new PricingCalculatorPage(driver);
     }
 

@@ -57,15 +57,4 @@ public class VirtualMachineCreator {
         return new VirtualMachine(this);
     }
 
-/*  public static VirtualMachine withCharacteristics(){
-        return new VirtualMachine(OPERATING_SYSTEM_SOFTWARE,
-                                  VM_FAMILY,
-                                  VM_SERIES,
-                                  MACHINE_TYPE,
-                                  NUMBER_OF_GPU,
-                                  GPU_TYPE,
-                                  LOCAL_SSD,
-                                  DATACENTER_LOCATION);
-    }*/
-
 }

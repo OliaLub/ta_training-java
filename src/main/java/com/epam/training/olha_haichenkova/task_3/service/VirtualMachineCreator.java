@@ -3,16 +3,61 @@ package com.epam.training.olha_haichenkova.task_3.service;
 import com.epam.training.olha_haichenkova.task_3.model.VirtualMachine;
 
 public class VirtualMachineCreator {
-    private static final String OPERATING_SYSTEM_SOFTWARE = "free";
-    private static final String VM_FAMILY = "gp";
-    private static final String VM_SERIES = "n1";
-    private static final String MACHINE_TYPE = "CP-COMPUTEENGINE-VMIMAGE-N1-STANDARD-8";
-    private static final String NUMBER_OF_GPU = "1";
-    private static final String GPU_TYPE = "NVIDIA_TESLA_V100";
-    private static final String LOCAL_SSD = "2";
-    private static final String DATACENTER_LOCATION = "europe-west3";
 
-    public static VirtualMachine withCharacteristics(){
+    public String operatingSystemSoftware;
+    public String vmFamily;
+    public String vmSeries;
+    public String machineType;
+    public String numberOfGPUs;
+    public String gPUType;
+    public String localSSD;
+    public String datacenterLocation;
+
+    public VirtualMachineCreator setOperatingSystemSoftware(String operatingSystemSoftware) {
+        this.operatingSystemSoftware = operatingSystemSoftware;
+        return this;
+    }
+
+    public VirtualMachineCreator setVmFamily(String vmFamily) {
+        this.vmFamily = vmFamily;
+        return this;
+    }
+
+    public VirtualMachineCreator setVmSeries(String vmSeries) {
+        this.vmSeries = vmSeries;
+        return this;
+    }
+
+    public VirtualMachineCreator setMachineType(String machineType) {
+        this.machineType = machineType;
+        return this;
+    }
+
+    public VirtualMachineCreator setNumberOfGPUs(String numberOfGPUs) {
+        this.numberOfGPUs = numberOfGPUs;
+        return this;
+    }
+
+    public VirtualMachineCreator setgPUType(String gPUType) {
+        this.gPUType = gPUType;
+        return this;
+    }
+
+    public VirtualMachineCreator setLocalSSD(String localSSD) {
+        this.localSSD = localSSD;
+        return this;
+    }
+
+    public VirtualMachineCreator setDatacenterLocation(String datacenterLocation) {
+        this.datacenterLocation = datacenterLocation;
+        return this;
+    }
+
+    public VirtualMachine perform() {
+        return new VirtualMachine(this);
+    }
+
+/*  public static VirtualMachine withCharacteristics(){
         return new VirtualMachine(OPERATING_SYSTEM_SOFTWARE,
                                   VM_FAMILY,
                                   VM_SERIES,
@@ -21,6 +66,6 @@ public class VirtualMachineCreator {
                                   GPU_TYPE,
                                   LOCAL_SSD,
                                   DATACENTER_LOCATION);
-    }
+    }*/
 
 }

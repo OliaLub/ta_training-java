@@ -19,6 +19,14 @@ public class CloudPricingCalculatorTest {
     public static WebDriver driver;
     private static final String SEARCH_QUERY = "Google Cloud Pricing Calculator";
     private static final int NUMBER_OF_VM = 4;
+    private static final String OPERATING_SYSTEM_SOFTWARE = "free";
+    private static final String VM_FAMILY = "gp";
+    private static final String VM_SERIES = "n1";
+    private static final String MACHINE_TYPE = "CP-COMPUTEENGINE-VMIMAGE-N1-STANDARD-8";
+    private static final String NUMBER_OF_GPU = "1";
+    private static final String GPU_TYPE = "NVIDIA_TESLA_V100";
+    private static final String LOCAL_SSD = "2";
+    private static final String DATACENTER_LOCATION = "europe-west3";
     private static final int COMMITTED_USAGE_YEARS = 1;
     private GoogleCloudMainPage googleCloudMainPage;
 
@@ -31,7 +39,17 @@ public class CloudPricingCalculatorTest {
 
     @Test
     public void verifyThatEstimatedPriceInEmailIsEqualToCalculatedOnline(){
-        VirtualMachine virtualMachine = VirtualMachineCreator.withCharacteristics();
+        VirtualMachine virtualMachine = new VirtualMachineCreator()
+                .setOperatingSystemSoftware(OPERATING_SYSTEM_SOFTWARE)
+                .setVmFamily(VM_FAMILY)
+                .setVmSeries(VM_SERIES)
+                .setMachineType(MACHINE_TYPE)
+                .setgPUType(GPU_TYPE)
+                .setNumberOfGPUs(NUMBER_OF_GPU)
+                .setLocalSSD(LOCAL_SSD)
+                .setDatacenterLocation(DATACENTER_LOCATION)
+                .perform();
+
         CalculationResultsPage calculationResultsPage = googleCloudMainPage
                 .openPage()
                 .inputSearchQuery(SEARCH_QUERY)

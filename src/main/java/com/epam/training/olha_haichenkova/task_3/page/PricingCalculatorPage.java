@@ -13,7 +13,7 @@ public class PricingCalculatorPage extends AbstractPage{
     protected static final String OUTER_IFRAME_XPATH = "//main//devsite-iframe/iframe";
     protected static final String INNER_IFRAME_ID = "myFrame";
     private static final String PATH_TO_OPTION = "//md-option[@value='%s']";
-    private static final String PATH_TO_DATACENTER_OPTION = "//div[@class='md-select-menu-container cpc-region-select md-active md-clickable']//md-option[@value='%s']";
+    private static final String PATH_TO_DATACENTER_OPTION = "//md-select-menu[@class='_md md-overflow']//md-option[@value='europe-west3']";
 
     @FindBy(xpath = "//md-tab-item[@id='tab-item-1']")
     private WebElement computeEngineTab;

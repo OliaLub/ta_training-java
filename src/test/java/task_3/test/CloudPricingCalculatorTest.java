@@ -1,8 +1,8 @@
 package task_3.test;
 
 import com.epam.training.olha_haichenkova.task_3.model.VirtualMachine;
-import com.epam.training.olha_haichenkova.task_3.page.CalculationResultsPage;
 import com.epam.training.olha_haichenkova.task_3.page.GoogleCloudMainPage;
+import com.epam.training.olha_haichenkova.task_3.page.PricingCalculatorPage;
 import com.epam.training.olha_haichenkova.task_3.service.VirtualMachineCreator;
 import com.epam.training.olha_haichenkova.task_3.util.TabsHandler;
 import com.epam.training.olha_haichenkova.task_3.page.YopmailMainPage;
@@ -50,14 +50,14 @@ public class CloudPricingCalculatorTest {
                 .setDatacenterLocation(DATACENTER_LOCATION)
                 .perform();
 
-        CalculationResultsPage calculationResultsPage = googleCloudMainPage
+        PricingCalculatorPage pricingCalculatorPage = googleCloudMainPage
                 .openPage()
                 .inputSearchQuery(SEARCH_QUERY)
                 .openSearchedResult(SEARCH_QUERY)
                 .fillInCalculationForm(NUMBER_OF_VM, virtualMachine, COMMITTED_USAGE_YEARS);
 
-        String actualTotalEstimateSite = calculationResultsPage.getTotalEstimate();
-        calculationResultsPage.openEmailEstimateForm();
+        String actualTotalEstimateSite = pricingCalculatorPage.getTotalEstimate();
+        pricingCalculatorPage.openEmailEstimateForm();
 
         YopmailMainPage yopmailMainPage = new YopmailMainPage(driver)
                 .openPage()
@@ -65,7 +65,7 @@ public class CloudPricingCalculatorTest {
 
         TabsHandler tabsHandler = new TabsHandler(driver);
         tabsHandler.switchToTab(0);
-        calculationResultsPage
+        pricingCalculatorPage
                 .fillInEmailEstimateForm();
 
         tabsHandler.switchToTab(1);

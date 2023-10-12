@@ -1,10 +1,10 @@
 package com.epam.training.olha_haichenkova.task_3.page;
 
+import com.epam.training.olha_haichenkova.task_3.util.StringUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class YopmailClientPage extends AbstractPage{
 
@@ -12,6 +12,7 @@ public class YopmailClientPage extends AbstractPage{
     private static final String IFRAME_BODY_TAG_NAME = "body";
     private static final String IFRAME_BODY_ATTRIBUTE = "class";
     private static final String IFRAME_BODY_CLASS = "bodymail yscrollbar";
+    private static final String MESSAGE_BODY = "//tbody//td/h2";
 
     @FindBy(xpath = "//tbody//td/h2")
     private WebElement messageBody;
@@ -27,22 +28,21 @@ public class YopmailClientPage extends AbstractPage{
     }
 
     public String readReceivedEmail() {
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id(LETTER_IFRAME_ID)));
+        waitToBePresent(By.id(LETTER_IFRAME_ID));
         driver.switchTo().frame(LETTER_IFRAME_ID);
         String bodyClass = iframeBody.getAttribute(IFRAME_BODY_ATTRIBUTE);
-        while (!bodyClass.equals(IFRAME_BODY_CLASS)){
+        if (!bodyClass.equals(IFRAME_BODY_CLASS)){
             waitForLetter();
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.tagName(IFRAME_BODY_TAG_NAME)));
-            bodyClass = iframeBody.getAttribute(IFRAME_BODY_ATTRIBUTE);
         }
+        waitToBePresent(MESSAGE_BODY);
         String estimationMessage = messageBody.getText();
-        return isolateNumberFromString(estimationMessage);
+        return StringUtil.isolateNumberFromString(estimationMessage);
     }
 
     private void waitForLetter(){
-        driver.switchTo().defaultContent();
-        refreshMailboxButton.click();
+        driver.navigate().refresh();
         driver.switchTo().frame(LETTER_IFRAME_ID);
+        waitToBePresent(By.tagName(IFRAME_BODY_TAG_NAME));
     }
 
     @Override

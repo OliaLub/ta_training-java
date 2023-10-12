@@ -10,11 +10,11 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 
-public class TestListener implements TestWatcher {
 
+public class CustomTestWatcher implements TestWatcher {
+
+    @Override
     public void testFailed(ExtensionContext context, Throwable cause){
         saveScreenshot();
     }
@@ -24,15 +24,10 @@ public class TestListener implements TestWatcher {
                 .getScreenshotAs(OutputType.FILE);
         try{
             FileUtils.copyFile(screenCapture, new File(".//target/screenshots/"
-                    + getCurrentTimeAsString() + ".png"));
+                    + StringUtil.getCurrentTimeAsString() + ".png"));
         }catch (IOException e){
             System.out.println("Failed to save screenshot: " + e.getLocalizedMessage());
         }
-    }
-
-    private String getCurrentTimeAsString(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
-        return ZonedDateTime.now().format(formatter);
     }
 
 }

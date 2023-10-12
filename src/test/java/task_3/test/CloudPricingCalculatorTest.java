@@ -2,35 +2,31 @@ package task_3.test;
 
 import com.epam.training.olha_haichenkova.task_3.driver.DriverSingleton;
 import com.epam.training.olha_haichenkova.task_3.model.VirtualMachine;
-import com.epam.training.olha_haichenkova.task_3.page.GoogleCloudMainPage;
-import com.epam.training.olha_haichenkova.task_3.page.PricingCalculatorPage;
+import com.epam.training.olha_haichenkova.task_3.page.*;
+import com.epam.training.olha_haichenkova.task_3.service.TestDataReader;
 import com.epam.training.olha_haichenkova.task_3.service.VirtualMachineCreator;
 import com.epam.training.olha_haichenkova.task_3.util.TabsHandler;
-import com.epam.training.olha_haichenkova.task_3.page.YopmailMainPage;
+import com.epam.training.olha_haichenkova.task_3.util.CustomTestWatcher;
 
-import com.epam.training.olha_haichenkova.task_3.util.TestListener;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.WebDriver;
 
 
-@ExtendWith(TestListener.class)
+@ExtendWith(CustomTestWatcher.class)
 public class CloudPricingCalculatorTest {
 
     public WebDriver driver;
     private static final String SEARCH_QUERY = "Google Cloud Pricing Calculator";
     private static final int NUMBER_OF_VM = 4;
-    private static final String OPERATING_SYSTEM_SOFTWARE = "free";
-    private static final String VM_FAMILY = "gp";
-    private static final String VM_SERIES = "n1";
-    private static final String MACHINE_TYPE = "CP-COMPUTEENGINE-VMIMAGE-N1-STANDARD-8";
-    private static final String NUMBER_OF_GPU = "1";
-    private static final String GPU_TYPE = "NVIDIA_TESLA_V100";
-    private static final String LOCAL_SSD = "2";
-    private static final String DATACENTER_LOCATION = "europe-west3";
+    private static final String OPERATING_SYSTEM_SOFTWARE = "testdata.operatingSystemSoftware";
+    private static final String VM_FAMILY = "testdata.vMFamily";
+    private static final String VM_SERIES = "testdata.vmSeries";
+    private static final String MACHINE_TYPE = "testdata.machineType";
+    private static final String NUMBER_OF_GPU = "testdata.numberOfGPUs";
+    private static final String GPU_TYPE = "testdata.gPUType";
+    private static final String LOCAL_SSD = "testdata.localSSD";
+    private static final String DATACENTER_LOCATION = "testdata.datacenterLocation";
     private static final int COMMITTED_USAGE_YEARS = 1;
     private GoogleCloudMainPage googleCloudMainPage;
 
@@ -43,24 +39,26 @@ public class CloudPricingCalculatorTest {
     @Test
     public void verifyThatEstimatedPriceInEmailIsEqualToCalculatedOnline(){
         VirtualMachine virtualMachine = new VirtualMachineCreator()
-                .setOperatingSystemSoftware(OPERATING_SYSTEM_SOFTWARE)
-                .setVmFamily(VM_FAMILY)
-                .setVmSeries(VM_SERIES)
-                .setMachineType(MACHINE_TYPE)
-                .setgPUType(GPU_TYPE)
-                .setNumberOfGPUs(NUMBER_OF_GPU)
-                .setLocalSSD(LOCAL_SSD)
-                .setDatacenterLocation(DATACENTER_LOCATION)
+                .setOperatingSystemSoftware(TestDataReader.getTestData(OPERATING_SYSTEM_SOFTWARE))
+                .setVmFamily(TestDataReader.getTestData(VM_FAMILY))
+                .setVmSeries(TestDataReader.getTestData(VM_SERIES))
+                .setMachineType(TestDataReader.getTestData(MACHINE_TYPE))
+                .setgPUType(TestDataReader.getTestData(GPU_TYPE))
+                .setNumberOfGPUs(TestDataReader.getTestData(NUMBER_OF_GPU))
+                .setLocalSSD(TestDataReader.getTestData(LOCAL_SSD))
+                .setDatacenterLocation(TestDataReader.getTestData(DATACENTER_LOCATION))
                 .perform();
 
-        PricingCalculatorPage pricingCalculatorPage = googleCloudMainPage
+        CalculationResultsFragment calculationResultsFragment = googleCloudMainPage
                 .openPage()
                 .inputSearchQuery(SEARCH_QUERY)
                 .openSearchedResult(SEARCH_QUERY)
-                .fillInCalculationForm(NUMBER_OF_VM, virtualMachine, COMMITTED_USAGE_YEARS);
+                .getCalculationFormFragment()
+                .fillInCalculationForm(NUMBER_OF_VM, virtualMachine, COMMITTED_USAGE_YEARS)
+                .getCalculationResultsFragment();
 
-        String actualTotalEstimateSite = pricingCalculatorPage.getTotalEstimate();
-        pricingCalculatorPage.openEmailEstimateForm();
+        String actualTotalEstimateSite = calculationResultsFragment.getTotalEstimate();
+        calculationResultsFragment.openEmailEstimateForm();
 
         YopmailMainPage yopmailMainPage = new YopmailMainPage(driver)
                 .openPage()
@@ -68,7 +66,7 @@ public class CloudPricingCalculatorTest {
 
         TabsHandler tabsHandler = new TabsHandler(driver);
         tabsHandler.switchToTab(0);
-        pricingCalculatorPage
+        calculationResultsFragment
                 .fillInEmailEstimateForm();
 
         tabsHandler.switchToTab(1);

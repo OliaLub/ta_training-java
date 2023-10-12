@@ -9,12 +9,15 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 public class YopmailClientPage extends AbstractPage{
 
     private static final String LETTER_IFRAME_ID = "ifmail";
-    private static final By IFRAME_BODY_BY = By.tagName("body");
+    private static final String IFRAME_BODY_TAG_NAME = "body";
     private static final String IFRAME_BODY_ATTRIBUTE = "class";
     private static final String IFRAME_BODY_CLASS = "bodymail yscrollbar";
 
     @FindBy(xpath = "//tbody//td/h2")
     private WebElement messageBody;
+
+    @FindBy(tagName = "body")
+    private WebElement iframeBody;
 
     @FindBy(xpath = "//button[@id='refresh']")
     private WebElement refreshMailboxButton;
@@ -26,10 +29,11 @@ public class YopmailClientPage extends AbstractPage{
     public String readReceivedEmail() {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id(LETTER_IFRAME_ID)));
         driver.switchTo().frame(LETTER_IFRAME_ID);
-        String bodyClass = driver.findElement(IFRAME_BODY_BY).getAttribute(IFRAME_BODY_ATTRIBUTE);
+        String bodyClass = iframeBody.getAttribute(IFRAME_BODY_ATTRIBUTE);
         while (!bodyClass.equals(IFRAME_BODY_CLASS)){
             waitForLetter();
-            bodyClass = driver.findElement(IFRAME_BODY_BY).getAttribute(IFRAME_BODY_ATTRIBUTE);
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.tagName(IFRAME_BODY_TAG_NAME)));
+            bodyClass = iframeBody.getAttribute(IFRAME_BODY_ATTRIBUTE);
         }
         String estimationMessage = messageBody.getText();
         return isolateNumberFromString(estimationMessage);

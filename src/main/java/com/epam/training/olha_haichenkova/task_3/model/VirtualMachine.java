@@ -1,5 +1,7 @@
 package com.epam.training.olha_haichenkova.task_3.model;
 
+import com.epam.training.olha_haichenkova.task_3.service.VirtualMachineCreator;
+
 import java.util.Objects;
 
 public class VirtualMachine {
@@ -12,22 +14,15 @@ public class VirtualMachine {
     private final String localSSD;
     private final String datacenterLocation;
 
-    public VirtualMachine (String operatingSystemSoftware,
-                           String vmFamily,
-                           String vmSeries,
-                           String machineType,
-                           String numberOfGPUs,
-                           String gPUType,
-                           String localSSD,
-                           String datacenterLocation) {
-        this.operatingSystemSoftware = operatingSystemSoftware;
-        this.vmFamily = vmFamily;
-        this.vmSeries = vmSeries;
-        this.machineType = machineType;
-        this.numberOfGPUs = numberOfGPUs;
-        this.gPUType = gPUType;
-        this.localSSD = localSSD;
-        this.datacenterLocation = datacenterLocation;
+    public VirtualMachine (VirtualMachineCreator virtualMachineCreator) {
+        this.operatingSystemSoftware = virtualMachineCreator.operatingSystemSoftware;
+        this.vmFamily = virtualMachineCreator.vmFamily;
+        this.vmSeries = virtualMachineCreator.vmSeries;
+        this.machineType = virtualMachineCreator.machineType;
+        this.numberOfGPUs = virtualMachineCreator.numberOfGPUs;
+        this.gPUType = virtualMachineCreator.gPUType;
+        this.localSSD = virtualMachineCreator.localSSD;
+        this.datacenterLocation = virtualMachineCreator.datacenterLocation;
     }
 
     public String getOperatingSystemSoftware() {

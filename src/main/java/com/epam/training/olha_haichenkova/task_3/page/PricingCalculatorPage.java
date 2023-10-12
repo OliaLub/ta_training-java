@@ -2,6 +2,7 @@ package com.epam.training.olha_haichenkova.task_3.page;
 
 import com.epam.training.olha_haichenkova.task_3.model.VirtualMachine;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -13,7 +14,8 @@ public class PricingCalculatorPage extends AbstractPage{
     protected static final String OUTER_IFRAME_XPATH = "//main//devsite-iframe/iframe";
     protected static final String INNER_IFRAME_ID = "myFrame";
     private static final String PATH_TO_OPTION = "//md-option[@value='%s']";
-    private static final String PATH_TO_DATACENTER_OPTION = "//div[@class='md-select-menu-container cpc-region-select md-active md-clickable']//md-option[@value='%s']";
+    private static final String PATH_TO_DATACENTER_OPTION = "//md-select-menu[@class='_md md-overflow']//md-option[@value='europe-west3']";
+    private static final String ESTIMATION_RESULT = "//*[@id='resultBlock']//div[@class='cpc-cart-total']";
 
     @FindBy(xpath = "//md-tab-item[@id='tab-item-1']")
     private WebElement computeEngineTab;
@@ -53,6 +55,18 @@ public class PricingCalculatorPage extends AbstractPage{
 
     @FindBy(xpath = "//form[@name='ComputeEngineForm']//button[contains(.,'Add to Estimate')]")
     private WebElement addToEstimateButton;
+
+    @FindBy(xpath = "//*[@id='resultBlock']//div[@class='cpc-cart-total']/h2/b")
+    private WebElement totalEstimateOnlineText;
+
+    @FindBy(xpath = "//button[@title='Email Estimate']")
+    private WebElement emailEstimateButton;
+
+    @FindBy(xpath = "//form[@name='emailForm']//input[@type='email']")
+    private WebElement emailAddressInput;
+
+    @FindBy(xpath = "//md-dialog-actions/button[contains(.,'Send Email')]")
+    private WebElement sendEmailButton;
 
     public PricingCalculatorPage(WebDriver driver){
         super (driver);
@@ -144,7 +158,7 @@ public class PricingCalculatorPage extends AbstractPage{
         return this;
     }
 
-    public CalculationResultsPage fillInCalculationForm(int numberOfVM, VirtualMachine vm, int committedUsageYears) {
+    public PricingCalculatorPage fillInCalculationForm(int numberOfVM, VirtualMachine vm, int committedUsageYears) {
         waitToBePresent(OUTER_IFRAME_XPATH);
         WebElement outerIframe = driver.findElement(By.xpath(OUTER_IFRAME_XPATH));
         driver.switchTo().frame(outerIframe);
@@ -163,7 +177,28 @@ public class PricingCalculatorPage extends AbstractPage{
 
         addToEstimateButton.click();
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(PRICING_CALCULATOR_URL)));
-        return new CalculationResultsPage(driver);
+        return this;
+    }
+
+    public String getTotalEstimate(){
+        waitToBePresent(ESTIMATION_RESULT);
+        String totalEstimate = totalEstimateOnlineText.getText();
+        return isolateNumberFromString(totalEstimate);
+    }
+
+    public PricingCalculatorPage openEmailEstimateForm(){
+        emailEstimateButton.click();
+        waitToBeClickable(emailAddressInput).click();
+        return this;
+    }
+
+    public PricingCalculatorPage fillInEmailEstimateForm(){
+        WebElement outerIframe = driver.findElement(By.xpath(OUTER_IFRAME_XPATH));
+        driver.switchTo().frame(outerIframe);
+        driver.switchTo().frame(INNER_IFRAME_ID);
+        waitToBeClickable(emailAddressInput).sendKeys(Keys.chord(Keys.CONTROL, "v"));
+        sendEmailButton.click();
+        return this;
     }
 
     @Override

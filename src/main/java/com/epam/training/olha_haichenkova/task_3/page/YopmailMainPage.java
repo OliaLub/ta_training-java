@@ -7,6 +7,7 @@ import org.openqa.selenium.support.FindBy;
 public class YopmailMainPage extends AbstractPage{
 
     private static final String YOP_URL = "https://yopmail.com/";
+    private static final String YOP_ADVERT_URL_PART = "#google_vignette";
     private static final String YOP_OUTER_IFRAME_ID = "aswift_6";
     private static final String YOP_INNER_IFRAME_ID = "ad_iframe";
 
@@ -46,19 +47,19 @@ public class YopmailMainPage extends AbstractPage{
     }
 
     private void closeAdvertisementIfAppear() {
-        if (isAdvertisementDisplayed()) {
+        if (driver.getCurrentUrl().contains(YOP_ADVERT_URL_PART)){
             closeAdvertisementPopUp();
         }
     }
 
-    private boolean isAdvertisementDisplayed(){
-        return driver.findElement(By.id(YOP_OUTER_IFRAME_ID)).isDisplayed();
-    }
-
     private void closeAdvertisementPopUp() {
         driver.switchTo().frame(YOP_OUTER_IFRAME_ID);
-        driver.switchTo().frame(YOP_INNER_IFRAME_ID);
-        closeAdvertisementButton.click();
+        try{
+            closeAdvertisementButton.click();
+        } catch (NoSuchElementException e){
+            driver.switchTo().frame(YOP_INNER_IFRAME_ID);
+            closeAdvertisementButton.click();
+        }
         driver.switchTo().defaultContent();
     }
 

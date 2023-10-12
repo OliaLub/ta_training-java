@@ -20,9 +20,6 @@ public class YopmailClientPage extends AbstractPage{
     @FindBy(tagName = "body")
     private WebElement iframeBody;
 
-    @FindBy(xpath = "//button[@id='refresh']")
-    private WebElement refreshMailboxButton;
-
     public YopmailClientPage(WebDriver driver) {
         super(driver);
     }

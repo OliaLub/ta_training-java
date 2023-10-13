@@ -1,6 +1,8 @@
 package com.epam.training.olha_haichenkova.task_3.page;
 
 import com.epam.training.olha_haichenkova.task_3.util.StringUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -13,6 +15,7 @@ import static com.epam.training.olha_haichenkova.task_3.page.PricingCalculatorPa
 public class CalculationResultsFragment extends AbstractFragment{
 
     private static final String ESTIMATION_RESULT = "//*[@id='resultBlock']//div[@class='cpc-cart-total']";
+    private final Logger logger = LogManager.getRootLogger();
 
     @FindBy(xpath = "//*[@id='resultBlock']//div[@class='cpc-cart-total']/h2/b")
     private WebElement totalEstimateOnlineText;
@@ -48,6 +51,7 @@ public class CalculationResultsFragment extends AbstractFragment{
         driver.switchTo().frame(INNER_IFRAME_ID);
         waitToBeClickable(emailAddressInput).sendKeys(Keys.chord(Keys.CONTROL, "v"));
         sendEmailButton.click();
+        logger.info("The Email with calculation results is sent");
         return this;
     }
 

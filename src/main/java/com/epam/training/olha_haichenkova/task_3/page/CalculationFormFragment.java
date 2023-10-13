@@ -1,6 +1,8 @@
 package com.epam.training.olha_haichenkova.task_3.page;
 
 import com.epam.training.olha_haichenkova.task_3.model.VirtualMachine;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,6 +15,7 @@ public class CalculationFormFragment extends AbstractFragment{
 
     private static final String PATH_TO_OPTION = "//md-option[@value='%s']";
     private static final String PATH_TO_DATACENTER_OPTION = "//md-select-menu[@class='_md md-overflow']//md-option[@value='europe-west3']";
+    private final Logger logger = LogManager.getRootLogger();
 
     @FindBy(xpath = "//md-tab-item[@id='tab-item-1']")
     private WebElement computeEngineTab;
@@ -163,6 +166,7 @@ public class CalculationFormFragment extends AbstractFragment{
 
         addToEstimateButton.click();
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(PRICING_CALCULATOR_URL)));
+        logger.info("The Calculation form is sent");
         return new PricingCalculatorPage(driver);
     }
 

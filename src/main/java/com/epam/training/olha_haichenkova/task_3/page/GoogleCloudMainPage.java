@@ -26,7 +26,7 @@ public class GoogleCloudMainPage extends AbstractPage{
     public GoogleCloudMainPage openPage() {
         driver.get(BASE_URL);
         waitToBeClickable(searchButton);
-        logger.info("The page '" + BASE_URL + "' is opened");
+        logger.info("The page '{}' is opened", BASE_URL);
         return this;
     }
 
@@ -43,7 +43,7 @@ public class GoogleCloudMainPage extends AbstractPage{
     public PricingCalculatorPage openSearchedResult(String searchQuery){
         waitToBePresent(RESULTS_CONTAINER);
         waitToBePresent(createSearchResultLocator(searchQuery)).click();
-        logger.info("The link with searched results: '" + searchQuery + "' was opened");
+        logger.info("The link with searched results: '{}' was opened", searchQuery);
         return new PricingCalculatorPage(driver);
     }
 

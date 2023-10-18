@@ -3,6 +3,7 @@ package task_3.test;
 import com.epam.training.olha_haichenkova.task_3.driver.DriverSingleton;
 import com.epam.training.olha_haichenkova.task_3.model.VirtualMachine;
 import com.epam.training.olha_haichenkova.task_3.page.*;
+import com.epam.training.olha_haichenkova.task_3.page.fragment.pricing_calculator_page.CalculationResultsFragment;
 import com.epam.training.olha_haichenkova.task_3.service.TestDataReader;
 import com.epam.training.olha_haichenkova.task_3.service.VirtualMachineCreator;
 import com.epam.training.olha_haichenkova.task_3.util.TabsHandler;
@@ -79,8 +80,8 @@ public class CloudPricingCalculatorTest {
                         actualTotalEstimateSite, actualTotalEstimateEmail));
     }
 
-    @AfterEach
-    public void tearDownDriver(){
+    @AfterAll
+    public static void tearDownDriver(){
         DriverSingleton.closeDriver();
     }
 

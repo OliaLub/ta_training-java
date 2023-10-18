@@ -1,4 +1,4 @@
-package com.epam.training.olha_haichenkova.task_3.page;
+package com.epam.training.olha_haichenkova.task_3.page.fragment;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

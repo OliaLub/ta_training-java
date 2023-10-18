@@ -1,5 +1,6 @@
-package com.epam.training.olha_haichenkova.task_3.page;
+package com.epam.training.olha_haichenkova.task_3.page.fragment.pricing_calculator_page;
 
+import com.epam.training.olha_haichenkova.task_3.page.fragment.AbstractFragment;
 import com.epam.training.olha_haichenkova.task_3.util.StringUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

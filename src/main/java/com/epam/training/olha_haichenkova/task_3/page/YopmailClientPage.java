@@ -11,7 +11,6 @@ import org.openqa.selenium.support.FindBy;
 public class YopmailClientPage extends AbstractPage{
 
     private static final String LETTER_IFRAME_ID = "ifmail";
-    private static final String IFRAME_BODY_TAG_NAME = "body";
     private static final String IFRAME_BODY_ATTRIBUTE = "class";
     private static final String IFRAME_BODY_CLASS = "bodymail yscrollbar";
     private static final String MESSAGE_BODY = "//tbody//td/h2";
@@ -23,6 +22,9 @@ public class YopmailClientPage extends AbstractPage{
     @FindBy(tagName = "body")
     private WebElement iframeBody;
 
+    @FindBy(xpath = "//button[@id='refresh']")
+    private WebElement refreshMailboxButton;
+
     public YopmailClientPage(WebDriver driver) {
         super(driver);
     }
@@ -32,7 +34,7 @@ public class YopmailClientPage extends AbstractPage{
         driver.switchTo().frame(LETTER_IFRAME_ID);
         String bodyClass = iframeBody.getAttribute(IFRAME_BODY_ATTRIBUTE);
         if (!bodyClass.equals(IFRAME_BODY_CLASS)){
-            waitForLetter();
+            checkIfLetterArrived();
         }
         waitToBePresent(MESSAGE_BODY);
         String estimationMessage = messageBody.getText();
@@ -40,10 +42,10 @@ public class YopmailClientPage extends AbstractPage{
         return StringUtil.isolateNumberFromString(estimationMessage);
     }
 
-    private void waitForLetter(){
-        driver.navigate().refresh();
+    private void checkIfLetterArrived(){
+        driver.switchTo().defaultContent();
+        waitToBeClickable(refreshMailboxButton).click();
         driver.switchTo().frame(LETTER_IFRAME_ID);
-        waitToBePresent(By.tagName(IFRAME_BODY_TAG_NAME));
     }
 
     @Override

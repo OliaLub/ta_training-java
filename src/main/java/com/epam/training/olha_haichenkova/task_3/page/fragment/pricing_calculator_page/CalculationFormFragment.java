@@ -1,6 +1,8 @@
-package com.epam.training.olha_haichenkova.task_3.page;
+package com.epam.training.olha_haichenkova.task_3.page.fragment.pricing_calculator_page;
 
 import com.epam.training.olha_haichenkova.task_3.model.VirtualMachine;
+import com.epam.training.olha_haichenkova.task_3.page.PricingCalculatorPage;
+import com.epam.training.olha_haichenkova.task_3.page.fragment.AbstractFragment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -69,7 +71,7 @@ public class CalculationFormFragment extends AbstractFragment{
     }
 
     private CalculationFormFragment selectNumberOfServers(int numberOfServers) {
-        numberOfServersInput.sendKeys(""+numberOfServers);
+        numberOfServersInput.sendKeys(Integer.toString(numberOfServers));
         return this;
     }
 
@@ -82,7 +84,7 @@ public class CalculationFormFragment extends AbstractFragment{
     }
 
     private CalculationFormFragment selectOperatingSystemSoftware(String optionName){
-        operatingSystemSoftwareSelectIcon.click();
+        waitToBeClickable(operatingSystemSoftwareSelectIcon).click();
         WebElement operatingSystemSoftwareOption = waitToBeClickable(createPathToOption(optionName));
         if(!operatingSystemSoftwareOption.isSelected()){
             operatingSystemSoftwareOption.click();
@@ -143,7 +145,7 @@ public class CalculationFormFragment extends AbstractFragment{
     }
 
     private CalculationFormFragment selectCommittedUsage(int committedUsageYears) {
-        committedUsageSelect.sendKeys(""+committedUsageYears);
+        committedUsageSelect.sendKeys(Integer.toString(committedUsageYears));
         return this;
     }
 

@@ -5,17 +5,23 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
+
+import static java.time.Duration.ofMillis;
+import static org.openqa.selenium.By.cssSelector;
+import static org.openqa.selenium.By.id;
+import static org.openqa.selenium.support.ui.ExpectedConditions.frameToBeAvailableAndSwitchToIt;
 
 
 public class YopmailMainPage extends AbstractPage{
 
     private static final String YOP_URL = "https://yopmail.com/";
     private static final String YOP_ADVERT_URL_PART = "#google_vignette";
-    private static final String YOP_OUTER_IFRAME_ID = "aswift_6";
+    private static final String YOP_OUTER_IFRAME_CSS = "ins[class^='adsbygoogle'][aria-hidden='false'] iframe";
     private static final String YOP_INNER_IFRAME_ID = "ad_iframe";
-
+    private static final String CLOSE_ADVERT_BUTTON_ID = "dismiss-button";
     private final Logger logger = LogManager.getRootLogger();
 
     @FindBy(xpath = "//a[@href='email-generator']/div[@class='txtlien']")
@@ -29,6 +35,9 @@ public class YopmailMainPage extends AbstractPage{
 
     @FindBy(xpath = "//div[@id='dismiss-button']")
     private WebElement closeAdvertisementButton;
+
+    @FindBy(xpath = "//ins[contains(@class, 'adsbygoogle')][@aria-hidden='false']")
+    private List<WebElement> closeAdvertisementBanner;
 
     public YopmailMainPage(WebDriver driver){
         super (driver);
@@ -63,8 +72,11 @@ public class YopmailMainPage extends AbstractPage{
     }
 
     private void closeAdvertisementPopUp() {
-        driver.switchTo().frame(YOP_OUTER_IFRAME_ID);
-            List<WebElement> closeAdvButton = driver.findElements(By.id("dismiss-button"));
+        if(!closeAdvertisementBanner.isEmpty()) {
+            new WebDriverWait(driver, ofMillis(5000))
+                    .pollingEvery(ofMillis(500))
+                    .until(frameToBeAvailableAndSwitchToIt(cssSelector(YOP_OUTER_IFRAME_CSS)));
+            List<WebElement> closeAdvButton = driver.findElements(id(CLOSE_ADVERT_BUTTON_ID));
             if (!closeAdvButton.isEmpty()) {
                 closeAdvertisementButton.click();
             } else {
@@ -74,5 +86,6 @@ public class YopmailMainPage extends AbstractPage{
             }
             driver.switchTo().defaultContent();
         }
+    }
 
 }

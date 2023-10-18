@@ -7,6 +7,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class YopmailClientPage extends AbstractPage{
 
@@ -14,6 +17,7 @@ public class YopmailClientPage extends AbstractPage{
     private static final String IFRAME_BODY_ATTRIBUTE = "class";
     private static final String IFRAME_BODY_CLASS = "bodymail yscrollbar";
     private static final String MESSAGE_BODY = "//tbody//td/h2";
+    private static final int WAIT_FOR_LETTER = 3;
     private final Logger logger = LogManager.getRootLogger();
 
     @FindBy(xpath = "//tbody//td/h2")
@@ -44,6 +48,7 @@ public class YopmailClientPage extends AbstractPage{
 
     private void checkIfLetterArrived(){
         driver.switchTo().defaultContent();
+        new WebDriverWait(driver, Duration.ofSeconds(WAIT_FOR_LETTER));
         waitToBeClickable(refreshMailboxButton).click();
         driver.switchTo().frame(LETTER_IFRAME_ID);
     }

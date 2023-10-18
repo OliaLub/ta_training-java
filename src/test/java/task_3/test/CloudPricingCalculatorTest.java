@@ -80,8 +80,8 @@ public class CloudPricingCalculatorTest {
                         actualTotalEstimateSite, actualTotalEstimateEmail));
     }
 
-    @AfterAll
-    public static void tearDownDriver(){
+    @AfterEach
+    public void tearDownTest(){
         DriverSingleton.closeDriver();
     }
 

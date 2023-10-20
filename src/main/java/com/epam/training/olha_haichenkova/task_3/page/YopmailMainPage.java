@@ -2,14 +2,15 @@ package com.epam.training.olha_haichenkova.task_3.page;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.*;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WindowType;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
-import static java.time.Duration.ofMillis;
 import static org.openqa.selenium.By.cssSelector;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.support.ui.ExpectedConditions.frameToBeAvailableAndSwitchToIt;
@@ -73,9 +74,7 @@ public class YopmailMainPage extends AbstractPage{
 
     private void closeAdvertisementPopUp() {
         if(!closeAdvertisementBanner.isEmpty()) {
-            new WebDriverWait(driver, ofMillis(5000))
-                    .pollingEvery(ofMillis(500))
-                    .until(frameToBeAvailableAndSwitchToIt(cssSelector(YOP_OUTER_IFRAME_CSS)));
+            waitWithPooling().until(frameToBeAvailableAndSwitchToIt(cssSelector(YOP_OUTER_IFRAME_CSS)));
             List<WebElement> closeAdvButton = driver.findElements(id(CLOSE_ADVERT_BUTTON_ID));
             if (!closeAdvButton.isEmpty()) {
                 closeAdvertisementButton.click();

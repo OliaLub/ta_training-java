@@ -1,23 +1,18 @@
 package task_3.test;
 
-import com.epam.training.olha_haichenkova.task_3.driver.DriverSingleton;
 import com.epam.training.olha_haichenkova.task_3.model.VirtualMachine;
-import com.epam.training.olha_haichenkova.task_3.page.*;
+import com.epam.training.olha_haichenkova.task_3.page.GoogleCloudMainPage;
+import com.epam.training.olha_haichenkova.task_3.page.YopmailMainPage;
 import com.epam.training.olha_haichenkova.task_3.page.fragment.pricing_calculator_page.CalculationResultsFragment;
 import com.epam.training.olha_haichenkova.task_3.service.TestDataReader;
 import com.epam.training.olha_haichenkova.task_3.service.VirtualMachineCreator;
 import com.epam.training.olha_haichenkova.task_3.util.TabsHandler;
-import com.epam.training.olha_haichenkova.task_3.util.CustomTestWatcher;
-
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.openqa.selenium.WebDriver;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 
-@ExtendWith(CustomTestWatcher.class)
-public class CloudPricingCalculatorTest {
+public class CloudPricingCalculatorTest extends BaseTest{
 
-    public WebDriver driver;
     private static final String SEARCH_QUERY = "Google Cloud Pricing Calculator";
     private static final int NUMBER_OF_VM = 4;
     private static final String OPERATING_SYSTEM_SOFTWARE = "testdata.operatingSystemSoftware";
@@ -29,13 +24,6 @@ public class CloudPricingCalculatorTest {
     private static final String LOCAL_SSD = "testdata.localSSD";
     private static final String DATACENTER_LOCATION = "testdata.datacenterLocation";
     private static final int COMMITTED_USAGE_YEARS = 1;
-    private GoogleCloudMainPage googleCloudMainPage;
-
-    @BeforeEach
-    public void setUpDriver(){
-        driver = DriverSingleton.getDriver();
-        googleCloudMainPage = new GoogleCloudMainPage(driver);
-    }
 
     @Test
     public void verifyThatEstimatedPriceInEmailIsEqualToCalculatedOnline(){
@@ -50,7 +38,7 @@ public class CloudPricingCalculatorTest {
                 .setDatacenterLocation(TestDataReader.getTestData(DATACENTER_LOCATION))
                 .perform();
 
-        CalculationResultsFragment calculationResultsFragment = googleCloudMainPage
+        CalculationResultsFragment calculationResultsFragment = new GoogleCloudMainPage(driver)
                 .openPage()
                 .inputSearchQuery(SEARCH_QUERY)
                 .openSearchedResult(SEARCH_QUERY)
@@ -78,11 +66,6 @@ public class CloudPricingCalculatorTest {
         Assertions.assertEquals(actualTotalEstimateSite, actualTotalEstimateEmail,
                 String.format("The estimate in EMAIL was expected as: %s, but actual is: %s!",
                         actualTotalEstimateSite, actualTotalEstimateEmail));
-    }
-
-    @AfterEach
-    public void tearDownTest(){
-        DriverSingleton.closeDriver();
     }
 
 }

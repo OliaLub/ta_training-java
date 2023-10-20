@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class ConfigurationHandler {
 
-    private static final String PATH_TO_CONFIG_FILE = "src//test//resources//config.properties";
+    private static final String PATH_TO_CONFIG_FILE = "src//main//resources//config.properties";
     private static final Logger logger = LogManager.getRootLogger();
 
     public static void setPropertiesFromConfigFile(){

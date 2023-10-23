@@ -1,17 +1,24 @@
 package com.epam.training.olha_haichenkova.task_3.page;
 
+import com.epam.training.olha_haichenkova.task_3.util.StringUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class YopmailClientPage extends AbstractPage{
 
     private static final String LETTER_IFRAME_ID = "ifmail";
-    private static final String IFRAME_BODY_TAG_NAME = "body";
     private static final String IFRAME_BODY_ATTRIBUTE = "class";
     private static final String IFRAME_BODY_CLASS = "bodymail yscrollbar";
+    private static final String MESSAGE_BODY = "//tbody//td/h2";
+    private static final int WAIT_FOR_LETTER = 3;
+    private final Logger logger = LogManager.getRootLogger();
 
     @FindBy(xpath = "//tbody//td/h2")
     private WebElement messageBody;
@@ -27,21 +34,22 @@ public class YopmailClientPage extends AbstractPage{
     }
 
     public String readReceivedEmail() {
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id(LETTER_IFRAME_ID)));
+        waitToBePresent(By.id(LETTER_IFRAME_ID));
         driver.switchTo().frame(LETTER_IFRAME_ID);
         String bodyClass = iframeBody.getAttribute(IFRAME_BODY_ATTRIBUTE);
-        while (!bodyClass.equals(IFRAME_BODY_CLASS)){
-            waitForLetter();
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.tagName(IFRAME_BODY_TAG_NAME)));
-            bodyClass = iframeBody.getAttribute(IFRAME_BODY_ATTRIBUTE);
+        if (!bodyClass.equals(IFRAME_BODY_CLASS)){
+            checkIfLetterArrived();
         }
+        waitToBePresent(MESSAGE_BODY);
         String estimationMessage = messageBody.getText();
-        return isolateNumberFromString(estimationMessage);
+        logger.info("The Email with calculation results is read");
+        return StringUtil.isolateNumberFromString(estimationMessage);
     }
 
-    private void waitForLetter(){
+    private void checkIfLetterArrived(){
         driver.switchTo().defaultContent();
-        refreshMailboxButton.click();
+        new WebDriverWait(driver, Duration.ofSeconds(WAIT_FOR_LETTER));
+        waitToBeClickable(refreshMailboxButton).click();
         driver.switchTo().frame(LETTER_IFRAME_ID);
     }
 
